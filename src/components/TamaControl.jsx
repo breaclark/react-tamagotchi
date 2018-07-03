@@ -10,22 +10,22 @@ import Button from './Button';
 function TamaControl(props) {
   let buttonArray = [
     {
-      name: "Hunger",
+      name: 'Hunger',
       img: food
     },
     {
-      name: "Bathroom",
+      name: 'Bathroom',
       img: bathroom
     },
     {
-      name: "Happy",
+      name: 'Happy',
       img: play
     },
     {
-      name: "Energy",
+      name: 'Energy',
       img: sleep
     }
-  ]
+  ];
 
   function handleNewClickEvent(buttonName) {
     props.onClickAction(buttonName);
@@ -44,12 +44,12 @@ function TamaControl(props) {
         <p>levels</p>
       </button>
       {buttonArray.map((button,index) =>
-          <Button
-            onNewClickEvent = {handleNewClickEvent}
-            img = {button.img}
-            name = {button.name}
-            key = {index}
-            />
+        <Button
+          onNewClickEvent = {handleNewClickEvent}
+          img = {button.img}
+          name = {button.name}
+          key = {index}
+        />
       )}
     </div>
   );

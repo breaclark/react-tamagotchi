@@ -1,6 +1,6 @@
-import React from "react";
-import TamaControl from "./TamaControl";
-
+import React from 'react';
+import TamaControl from './TamaControl';
+import Tama from './Tama';
 
 class App extends React.Component{
 
@@ -11,10 +11,16 @@ class App extends React.Component{
       tamaBathroom: 10,
       tamaEnergy: 10,
       tamaHappy: 10,
-      dead: false
-    }
+      dead: false,
+      eating: false,
+      pooping: false,
+      sleeping: false,
+      playing: false
+    };
     this.isDead = this.isDead.bind(this);
+    this.tamaSleep = this.tamaSleep.bind(this);
     this.handleTamaAction = this.handleTamaAction.bind(this);
+    this.consoleLogState = this.consoleLogState.bind(this);
   }
 
   isDead() {
@@ -30,13 +36,51 @@ class App extends React.Component{
 
   componentDidMount() {
     this.tamaLifecycle = setInterval(() => {
-        if (this.isDead()) {
-          clearInterval(this.tamaLifecycle);
-        } else {
-          this.updateTamaCondition();
-        }
-      }, 5000 );
+      if (this.isDead()) {
+        clearInterval(this.tamaLifecycle);
+      } else {
+        this.updateTamaCondition();
+      }
+    }, 10000 );
   }
+
+  tamaSleep(){
+    this.setState({
+      sleeping: true
+    });
+    setTimeout(() => {
+      this.setState({
+        sleeping: false
+      });
+    }, 3000 );
+  }
+
+  tamaFeed() {
+    this.setState({
+      eating: true
+    });
+    setTimeout(() => {
+      this.setState({
+        eating: false
+      });
+    }, 3000 );
+  }
+
+  tamaPlay() {
+    this.setState({
+      playing: true
+    });
+    setTimeout(() => {
+      this.setState({
+        playing: false
+      });
+    }, 3000 );
+  }
+
+  consoleLogState() {
+    console.log(this.state);
+  }
+
 
   updateTamaCondition() {
     let newTamaHungerState = this.state.tamaHunger - 1;
@@ -48,26 +92,30 @@ class App extends React.Component{
       tamaBathroom: newTamaBathroomState,
       tamaEnergy: newTamaEnergyState,
       tamaHappy: newTamaHappyState,
-    });
-    console.log(this.state.tamaHunger);
-    console.log(this.state.tamaBathroom);
-    console.log(this.state.tamaEnergy);
-    console.log(this.state.tamaHappy);
+    }, this.consoleLogState);
   }
 
   handleTamaAction(action) {
-    console.log(action + ' was triggered');
-    let key = 'tama'+ action;
-    this.setState({[key] : 10});
-    console.log('Current value of ' + key + ':' + this.state[key]);
+    if (action === 'Energy') {
+      this.setState({ tamaEnergy : 10 }, this.consoleLogState);
+      this.tamaSleep();
+    } else if (action === 'Hunger') {
+      this.setState({ tamaHunger : 10 }, this.consoleLogState);
+      this.tamaFeed();
+    } else if (action === 'Bathroom') {
+      this.setState({ tamaBathroom : 10 }, this.consoleLogState);
+    } else {
+      this.setState({ tamaHappy : 10 }, this.consoleLogState);
+      this.tamaPlay();
+    }
   }
 
   render() {
     return (
       <div>
-        <h1>Hello!</h1>
         <TamaControl
           onClickAction = {this.handleTamaAction} />
+        <Tama currentState = {this.state}/>
       </div>
     );
   }
