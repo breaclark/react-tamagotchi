@@ -37,7 +37,7 @@ function Tama(props) {
           }
       `}</style>
       <img src={currentAction()} alt='tamagotchi'/>
-    </div>
+    </div> 
 
   );
 }
