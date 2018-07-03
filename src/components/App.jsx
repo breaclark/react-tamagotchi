@@ -1,6 +1,8 @@
 import React from 'react';
 import TamaControl from './TamaControl';
 import Tama from './Tama';
+
+import Levels from './Levels';
 import background from './../assets/tamagotchi-background.png';
 
 class App extends React.Component{
@@ -16,12 +18,14 @@ class App extends React.Component{
       eating: false,
       pooping: false,
       sleeping: false,
-      playing: false
+      playing: false,
+      displayLevels: false
     };
     this.isDead = this.isDead.bind(this);
     this.checkIfPoopy = this.checkIfPoopy.bind(this);
     this.tamaSleep = this.tamaSleep.bind(this);
     this.handleTamaAction = this.handleTamaAction.bind(this);
+    this.handleDisplayLevels = this.handleDisplayLevels.bind(this);
     this.consoleLogState = this.consoleLogState.bind(this);
   }
 
@@ -92,6 +96,15 @@ class App extends React.Component{
     console.log(this.state);
   }
 
+  handleDisplayLevels() {
+    let displayLevels = this.state.displayLevels;
+
+    if (displayLevels) {
+      this.setState({ displayLevels : false });
+    } else {
+      this.setState({ displayLevels : true });
+    }
+  }
 
   updateTamaCondition() {
     let newTamaHungerState = this.state.tamaHunger - 1;
@@ -107,24 +120,32 @@ class App extends React.Component{
   }
 
   handleTamaAction(action) {
-    if (action === 'Energy') {
-      this.setState({ tamaEnergy : 10 }, this.consoleLogState);
-      this.tamaSleep();
-    } else if (action === 'Hunger') {
-      this.setState({ tamaHunger : 10 }, this.consoleLogState);
-      this.tamaFeed();
-    } else if (action === 'Bathroom') {
-      this.setState({
-        tamaBathroom : 10,
-        pooping: false
-       }, this.consoleLogState);
-    } else {
-      this.setState({ tamaHappy : 10 }, this.consoleLogState);
-      this.tamaPlay();
+    if (this.state.dead === false) {
+      if (action === 'Energy') {
+        this.setState({ tamaEnergy : 10 }, this.consoleLogState);
+        this.tamaSleep();
+      } else if (action === 'Hunger') {
+        this.setState({ tamaHunger : 10 }, this.consoleLogState);
+        this.tamaFeed();
+      } else if (action === 'Bathroom') {
+        this.setState({
+          tamaBathroom : 10,
+          pooping: false
+         }, this.consoleLogState);
+      } else {
+        this.setState({ tamaHappy : 10 }, this.consoleLogState);
+        this.tamaPlay();
+      }
     }
   }
 
   render() {
+    let currentlyVisibleComponent = null;
+    if (this.state.displayLevels) {
+      currentlyVisibleComponent = <Levels currentState = {this.state} />;
+    } else {
+      currentlyVisibleComponent = <Tama currentState = {this.state} />;
+    }
     return (
       <div>
         <style jsx>{`
@@ -140,11 +161,12 @@ class App extends React.Component{
             left: 107px;
           }
         `}</style>
-        <img className="tama-back" src={background} alt="background"/>
+        <img className="tama-back" src={background} alt="background" />
         <div className="tama-main">
           <TamaControl
-            onClickAction = {this.handleTamaAction} />
-          <Tama currentState = {this.state}/>
+            onClickAction = {this.handleTamaAction}
+            onClickLevels = {this.handleDisplayLevels}/>
+          {currentlyVisibleComponent}
         </div>
       </div>
     );

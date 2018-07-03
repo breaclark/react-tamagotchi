@@ -42,7 +42,7 @@ function TamaControl(props) {
           width: 20px;
         }
       `}</style>
-      <button>
+    <button onClick={props.onClickLevels}>
         <img src={levels} alt="button" />
       </button>
       {buttonArray.map((button,index) =>
@@ -58,7 +58,8 @@ function TamaControl(props) {
 }
 
 TamaControl.propTypes = {
-  onClickAction : PropTypes.func
+  onClickAction : PropTypes.func,
+  onClickLevels : PropTypes.func
 };
 
 export default TamaControl;

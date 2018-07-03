@@ -13,8 +13,6 @@ function Tama(props) {
   function currentAction() {
     if (props.currentState.dead === true) {
       return dead;
-    } else if (props.currentState.pooping === true) {
-      return poop;
     } else if (props.currentState.sleeping === true) {
       return sleeping;
     } else if (props.currentState.eating === true) {
@@ -22,7 +20,11 @@ function Tama(props) {
     } else if (props.currentState.playing === true) {
       return playing;
     } else {
-      return normal;
+      if(props.currentState.pooping === true) {
+        return poop;
+      } else {
+        return normal;
+      }
     }
   }
 
@@ -41,7 +43,8 @@ function Tama(props) {
 }
 
 Tama.propTypes = {
-  img: PropTypes.string
+  img: PropTypes.string,
+  currentState : PropTypes.object
 };
 
 export default Tama;
