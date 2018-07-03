@@ -5,11 +5,14 @@ import normal from './../assets/normal.gif';
 import sleeping from './../assets/sleep.gif';
 import playing from './../assets/happy.gif';
 import eating from './../assets/eat.gif';
+import dead from './../assets/die.gif';
 
 function Tama(props) {
 
   function currentAction() {
-    if(props.currentState.sleeping === true) {
+    if (props.currentState.dead === true) {
+      return dead;
+    } else if (props.currentState.sleeping === true) {
       return sleeping;
     } else if (props.currentState.eating === true) {
       return eating;
@@ -21,7 +24,16 @@ function Tama(props) {
   }
 
   return(
-    <img src={currentAction()} alt='tamagotchi'/>
+    <div>
+      <style jsx>{`
+          img {
+            width: 129px;
+            margin-left: 12px;
+          }
+      `}</style>
+      <img src={currentAction()} alt='tamagotchi'/>
+    </div>
+
   );
 }
 

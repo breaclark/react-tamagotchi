@@ -13,10 +13,13 @@ function Button(props) {
         button {
           background-color: transparent;
           border: none;
+          margin-left: -5px;
+        }
+        img {
+          width: 20px;
         }
       `}</style>
       <img src={props.img} alt="button" />
-      <p>{props.name}</p>
     </button>
   );
 }

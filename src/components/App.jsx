@@ -1,6 +1,7 @@
 import React from 'react';
 import TamaControl from './TamaControl';
 import Tama from './Tama';
+import background from './../assets/tamagotchi-background.png';
 
 class App extends React.Component{
 
@@ -113,9 +114,25 @@ class App extends React.Component{
   render() {
     return (
       <div>
-        <TamaControl
-          onClickAction = {this.handleTamaAction} />
-        <Tama currentState = {this.state}/>
+        <style jsx>{`
+          .tama-back {
+            width: 400px;
+            position: absolute;
+            z-index: -1;
+          }
+
+          .tama-main {
+            position: absolute;
+            top: 170px;
+            left: 107px;
+          }
+        `}</style>
+        <img className="tama-back" src={background} alt="background"/>
+        <div className="tama-main">
+          <TamaControl
+            onClickAction = {this.handleTamaAction} />
+          <Tama currentState = {this.state}/>
+        </div>
       </div>
     );
   }

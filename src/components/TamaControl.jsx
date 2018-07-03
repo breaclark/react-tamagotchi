@@ -38,10 +38,12 @@ function TamaControl(props) {
           background-color: transparent;
           border: none;
         }
+        img {
+          width: 20px;
+        }
       `}</style>
       <button>
         <img src={levels} alt="button" />
-        <p>levels</p>
       </button>
       {buttonArray.map((button,index) =>
         <Button
