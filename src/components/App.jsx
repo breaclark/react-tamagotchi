@@ -19,6 +19,7 @@ class App extends React.Component{
       playing: false
     };
     this.isDead = this.isDead.bind(this);
+    this.checkIfPoopy = this.checkIfPoopy.bind(this);
     this.tamaSleep = this.tamaSleep.bind(this);
     this.handleTamaAction = this.handleTamaAction.bind(this);
     this.consoleLogState = this.consoleLogState.bind(this);
@@ -35,11 +36,20 @@ class App extends React.Component{
     }
   }
 
+  checkIfPoopy() {
+    if(this.state.tamaBathroom <= 0) {
+      this.setState({
+        pooping: true
+      });
+    }
+  }
+
   componentDidMount() {
     this.tamaLifecycle = setInterval(() => {
       if (this.isDead()) {
         clearInterval(this.tamaLifecycle);
       } else {
+        this.checkIfPoopy();
         this.updateTamaCondition();
       }
     }, 10000 );
@@ -85,8 +95,8 @@ class App extends React.Component{
 
   updateTamaCondition() {
     let newTamaHungerState = this.state.tamaHunger - 1;
-    let newTamaBathroomState = this.state.tamaBathroom - 0.5;
-    let newTamaEnergyState = this.state.tamaEnergy - 2;
+    let newTamaBathroomState = this.state.tamaBathroom - 2;
+    let newTamaEnergyState = this.state.tamaEnergy - 0.5;
     let newTamaHappyState = this.state.tamaHappy - 0.25;
     this.setState({
       tamaHunger: newTamaHungerState,
@@ -104,7 +114,10 @@ class App extends React.Component{
       this.setState({ tamaHunger : 10 }, this.consoleLogState);
       this.tamaFeed();
     } else if (action === 'Bathroom') {
-      this.setState({ tamaBathroom : 10 }, this.consoleLogState);
+      this.setState({
+        tamaBathroom : 10,
+        pooping: false
+       }, this.consoleLogState);
     } else {
       this.setState({ tamaHappy : 10 }, this.consoleLogState);
       this.tamaPlay();
